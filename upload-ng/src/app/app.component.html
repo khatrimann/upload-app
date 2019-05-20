@@ -1,0 +1,134 @@
+<div class="conatiner-fluid mx-5 my-4" onmousemove="modalclose()">
+
+  <form [formGroup]="uploadForm" (ngSubmit)="uploadSubmit()">
+
+    <div class="row">
+      <div ng2FileDrop [uploader]="uploader" class="drop-zone" name="imageFile">
+      </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col py-2" >
+          <input formControlName="document" *ngIf="uploader.queue.length <6" type="file" ng2FileSelect accept="image/*" [uploader]="uploader" name="imageFile" multiple/><br/>
+        </div>
+
+        <div class="col py-2">
+          <button mat-raised-button color="accent" [disabled]="uploader.queue.length < 3 || uploader.queue.length >5  || warning" type="submit">Upload Data</button>
+        </div>
+
+    </div>
+
+    <div>
+        Upload progress ({{uploadPercentage+'%'}}):
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploadPercentage+ '%' }"  aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </div>
+
+    <div>
+      <div *ngIf="warning">
+        <p>Limit size Exceeded than 10MB of one or more files</p>
+      </div>
+
+      <div *ngIf="limitWarning">
+        <p class="alert alert-warning">*Queue Full, items should be less than or equal to 5</p>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="ppath">
+      <div *ngFor="let path of ppath" class="col-md-2">
+        <img [src]="path" *ngIf="path" class="thumbs"/>
+      </div>
+    </div>
+
+    <div class="row">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th scope="col" width="5%">
+              Index
+          </th>
+          <th scope="col" width="85%">
+            File Name
+          </th>
+          <th scope="col" width="10%">
+            Remove
+          </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let item of uploader.queue">
+          <td scope="row" width="5%">
+              {{uploader.queue.indexOf(item) + 1}}
+          </td>
+          <td width="85%">
+            {{item.file.name}} ({{item.file.size}} kB)
+            <p *ngIf="item.file.size > 10000000" class="alert alert-warning">File size is greater than 10MB</p>
+          </td>
+          <td class="text-center" width="10%">
+            <mat-icon (click)="ppath.splice(uploader.queue.indexOf(item), 1); item.remove();">delete</mat-icon>
+          </td>
+        </tr>
+        </tbody>
+
+      </table>
+    </div>
+
+  </form>
+
+  <div *ngIf="images">
+    <div class="row">
+    <div class="card col mx-2" *ngFor="let image of images" style="max-width: 18rem;">
+        <div class="card-header">{{ image.name.slice(17, image.length) }}<button type="button" class="close" aria-label="Close" (click)="deleteImage(image.id, images.indexOf(image))">
+            <span aria-hidden="true">&times;</span>
+          </button></div>
+        <img src="http://localhost:3000/images{{image.name}}">
+    </div>
+  </div>
+
+</div>
+
+
+<!-- Code that can be used -->
+
+<!-- <mat-card-content>
+
+    <br>
+
+    <table>
+      <thead>
+      <tr>
+        <th width="5%">
+            Index
+        </th>
+        <th width="85%">
+          File Name
+        </th>
+        <th width="10%">
+          Remove
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of uploader.queue">
+        <th width="90%">
+          ({{uploader.queue.indexOf(item)}} {{item.file.name}} {{item.file.size}} kB)
+        </th>
+        <th class="text-center" width="10%">
+          <mat-icon (click)="ppath.splice(uploader.queue.indexOf(item), 1); item.remove();">delete</mat-icon>
+        </th>
+      </tr>
+      </tbody>
+    </table>
+    <br>
+
+  </mat-card-content>
+</form>
+
+<div *ngIf="ppath">
+  <div *ngFor="let path of ppath">
+  <img [src]="path" *ngIf="path"/>
+  </div>
+</div> -->

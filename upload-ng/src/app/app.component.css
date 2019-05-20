@@ -1,0 +1,28 @@
+.thumbs {
+height: 10rem;
+width: 10rem;
+margin: auto;
+}
+
+.drop-zone {
+  height: 25rem;
+  width: 100%;
+  outline: 2px dashed black;
+  outline-offset: -10px;
+  -moz-outline-radius: 1rem;
+  -webkit-outline-radius: 1rem;
+  box-shadow: 1rem;
+  background: rgba(0, 128 , 128, 0.3) url('../assets/cloud-upload.svg') no-repeat;
+  background-position: center;
+  background-size: 10rem;
+  border-radius: 1rem;
+}
+
+.drop-zone:hover {
+  background-color: rgba(0, 128 , 128, 0.4)
+}
+
+.table, .th, .td {
+  text-align: center;
+}
+
